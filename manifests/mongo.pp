@@ -12,8 +12,8 @@ class xhgui::mongo(
     }
   }
 
-  if !defined(Package['mongo-clients']) {
-    package {'mongo-clients':
+  if !defined(Package['mongodb-clients']) {
+    package {'mongodb-clients':
       ensure => present,
     }
   }
