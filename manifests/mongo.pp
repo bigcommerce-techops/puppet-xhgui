@@ -25,7 +25,7 @@ class xhgui::mongo(
       db.results.ensureIndex( { 'profile.main().mu' : -1 } );
       db.results.ensureIndex( { 'profile.main().cpu' : -1 } );
       db.results.ensureIndex( { 'meta.url' : 1 } )\"",
-      require => Package['mongo-clients'],
+      require => Package['mongodb-clients'],
     tries     => 10,  # Retry the Mongo command, as MongoDB takes a few seconds
     try_sleep => 2,   # to start (at least the first time)
   }
