@@ -1,6 +1,8 @@
 # Installs MongoDB and creates indexes for XHGui
 class xhgui::mongo(
-  $php_mongo_package
+  $php_mongo_package,
+  $mongo_host,
+  $mongo_db,
 ) {
   Exec { path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin' ] }
 
@@ -10,14 +12,20 @@ class xhgui::mongo(
     }
   }
 
+  if !defined(Package['mongo-clients']) {
+    package {'mongo-clients':
+      ensure => present,
+    }
+  }
+
   # Add mongo indexes
   exec { 'mongo indexes':
-    command   => 'mongo xhprof --eval "db.results.ensureIndex( { \'meta.SERVER.REQUEST_TIME\' : -1 } );
-      db.results.ensureIndex( { \'profile.main().wt\' : -1 } );
-      db.results.ensureIndex( { \'profile.main().mu\' : -1 } );
-      db.results.ensureIndex( { \'profile.main().cpu\' : -1 } );
-      db.results.ensureIndex( { \'meta.url\' : 1 } )"',
-    require   => [ Class['mongodb::server'], Service['mongodb'] ],
+    command   => "mongo ${mongo_host}/${mongo_db} --eval \"db.results.ensureIndex( { 'meta.SERVER.REQUEST_TIME' : -1 } );
+      db.results.ensureIndex( { 'profile.main().wt' : -1 } );
+      db.results.ensureIndex( { 'profile.main().mu' : -1 } );
+      db.results.ensureIndex( { 'profile.main().cpu' : -1 } );
+      db.results.ensureIndex( { 'meta.url' : 1 } )\"",
+      require => Package['mongo-clients'],
     tries     => 10,  # Retry the Mongo command, as MongoDB takes a few seconds
     try_sleep => 2,   # to start (at least the first time)
   }

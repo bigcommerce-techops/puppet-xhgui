@@ -28,6 +28,8 @@ class xhgui (
 
   class { 'xhgui::mongo':
     php_mongo_package => $php_mongo_package,
+    mongo_host        => $mongo_host,
+    mongo_db          => $mongo_db,
   }
 
   # The way to set profiling config for XHGui > 0.3.0
