@@ -10,7 +10,8 @@ class xhgui (
   $php_mongo_package = $xhgui::params::php_mongo_package,
   $www_user          = $xhgui::params::www_user,
   $mongo_host        = '127.0.0.1:27017',
-  $mongo_db          = 'xhprof'
+  $mongo_db          = 'xhprof',
+  $enable_profiling  = false,
 ) inherits xhgui::params {
 
   if !defined(Package[$xhprof_package]) {
@@ -44,6 +45,15 @@ class xhgui (
       dir      => $dir,
       www_user => $www_user,
       require  => Class['Xhgui::Download'],
+    }
+  }
+  if $enable_profiling {
+    Php5::Config {
+      notify  => Service['php5-fpm'],
+    }
+
+    php5::config {
+      'auto_prepend_file': value => "${dir}/external/header.php";
     }
   }
 }
