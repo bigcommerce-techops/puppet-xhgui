@@ -32,7 +32,7 @@ return array(
 <% if not @blacklist_urls.empty? -%>
         $url = $_SERVER['REQUEST_URI'];
 <% @blacklist_urls.each do |url| -%>
-        if (strpos($url, <%= url %>) === 1) {
+        if (strpos($url, '<%= url %>') === 1) {
             return false;
         }
 <% end -%>
