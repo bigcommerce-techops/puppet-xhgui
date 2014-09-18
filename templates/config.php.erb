@@ -29,6 +29,14 @@ return array(
             return true;
         }
 
+<% if not @blacklist_urls.empty? -%>
+        $url = $_SERVER['REQUEST_URI'];
+<% @blacklist_urls.each do |url| -%>
+        if (strpos($url, <%= url %>) === 1) {
+            return false;
+        }
+<% end -%>
+<% end -%>
         // Enable profiling by sample size
         if (rand(1, $sampleSize) === 1) {
             return true;

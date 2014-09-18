@@ -12,6 +12,7 @@ class xhgui (
   $mongo_host        = '127.0.0.1:27017',
   $mongo_db          = 'xhprof',
   $enable_profiling  = false,
+  $blacklist_urls    = [],
 ) inherits xhgui::params {
 
   if !defined(Package[$xhprof_package]) {
