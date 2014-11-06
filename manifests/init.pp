@@ -64,6 +64,7 @@ class xhgui (
 
     php5::config { 'auto_prepend_file':
         ensure => absent,
+        value  => '',
     }
   }
 }

@@ -1,5 +1,5 @@
 name 'bigcommercetechops-xhgui'
-version '0.2.2'
+version '0.2.3'
 description 'Installs and configures XHGui, a MongoDB-backed GUI for XHProf.'
 dependency 'puppetlabs/vcsrepo', '>= 0.2.0'
 dependency 'tPl0ch/composer', '>= 1.2.0'
