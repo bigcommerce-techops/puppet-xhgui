@@ -48,7 +48,9 @@ class xhgui (
       require  => Class['Xhgui::Download'],
     }
   }
-  if $enable_profiling {
+  $profiling = str2bool($enable_profiling)
+
+  if $profiling {
     Php5::Config {
       notify => Service['php5-fpm'],
     }
@@ -60,6 +62,7 @@ class xhgui (
   } else {
     ini_setting {'auto_prepend_file':
       ensure  => absent,
+      section => '',
       path    => '/etc/php5/conf.d/zzz_common.ini',
       setting => 'auto_prepend_file',
       notify  => Service['php5-fpm'],
