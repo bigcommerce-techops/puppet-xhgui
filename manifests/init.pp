@@ -58,13 +58,11 @@ class xhgui (
       value  => "${dir}/external/header.php",
     }
   } else {
-    Php5::Config {
+    ini_setting {'auto_prepend_file':
+      ensure  => absent,
+      path    => '/etc/php5/conf.d/zzz_common.ini',
+      setting => 'auto_prepend_file',
       notify  => Service['php5-fpm'],
-    }
-
-    php5::config { 'auto_prepend_file':
-        ensure => absent,
-        value  => '',
     }
   }
 }
