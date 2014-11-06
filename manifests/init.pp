@@ -50,11 +50,21 @@ class xhgui (
   }
   if $enable_profiling {
     Php5::Config {
+    }
+
+    php5::config { 'auto_prepend_file':
+      ensure => present,
+      value  => "${dir}/external/header.php",
+      notify => Service['php5-fpm'],
+    }
+  } else {
+    Php5::Config {
       notify  => Service['php5-fpm'],
     }
 
-    php5::config {
-      'auto_prepend_file': value => "${dir}/external/header.php";
+    php5::config { 'auto_prepend_file':
+        ensure => absent,
+        value  => "${dir}/external/header.php",
     }
   }
 }
