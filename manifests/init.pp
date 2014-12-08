@@ -53,6 +53,7 @@ class xhgui (
   if $profiling {
     Php5::Config {
       notify => Service['php5-fpm'],
+      target => '/etc/php5/conf.d/zzz_common.ini',
     }
 
     php5::config { 'auto_prepend_file':
